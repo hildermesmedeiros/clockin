@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="TerminalProjectOptionsProvider">
+    <envs>
+      <env key="terminal-pro" value="C:\Program Files\ArcGIS\Pro\bin\Python\Scripts\activate.bat" />
+    </envs>
+  </component>
+</project>
