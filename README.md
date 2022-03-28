@@ -1,4 +1,4 @@
-###### Clockin example #######
+# Clockin example
 
 > Requires  
 > Django  
