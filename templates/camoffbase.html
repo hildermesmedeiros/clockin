@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load static %}
+
+<style>
+{% block style %}
+{% include 'partials/styleCamOff.html' %}
+{% endblock %}
+input {
+    z-index: 2;
+}
+
+@keyframes slideInFromTop {
+0% {
+    transform: translateY(-100%);
+    }
+100% {
+    transform: translateY(0);
+    }
+}
+
+.topSlide {
+    animation: 3s ease-out 0s 1 slideInFromTop;
+    background-color:#496266;
+    width: 100%;
+    height: 100%;
+    opacity: 0.55;
+    z-index: 1;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%); /* IE 9 */
+  -webkit-transform: translate(-50%, -50%); /* Chrome, Safari, Opera */
+}
+
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: white !important;
+            opacity: 1; /* Firefox */
+}
+
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: white !important;
+}
+
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+            color: white !important;
+ }
+</style>
+<head>
+    <title>camera</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</head>
+<body>
+<div class="topSlide">
+    <div class="center container d-md-block d-flex justify-content-center align-items-center col-3 d-grid gap-5">
+
+
+    <form>
+      <!-- User input -->
+      <div class="form-outline mb-4">
+        <input type="user" id="userForm" class="form-control bg-transparent text-white" aria-describedby="userHelp" placeholder="Seu Usuário"/>
+      </div>
+
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <input type="password" id="passForm" class="form-control bg-transparent text-white" aria-describedby="passHelp" placeholder="Sua Senha"/>
+      </div>
+
+      <!-- Submit button -->
+      <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+    </form>
+
+    </div>
+</div>
+</body>
