@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 {% load static %}
 <style>
-html, body {
-    overflow: hidden;
-    width: 100%; /* restrict the page width to viewport */
-    height: 100%;
-    background-image: url({% url 'video_stream' %});
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
+{% block style %}
+{% include 'partials/styleCamOn.html' %}
+{% endblock %}
 input {
     z-index: 2;
 }
