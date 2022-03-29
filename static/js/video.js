@@ -5,8 +5,8 @@ const height = screen.height;
 feather.replace();
 
 const controls = document.querySelector('.controls');
-const cameraOptions = document.querySelector('.video-options>select');
-const select = document.getElementById('select');
+let cameraOptions = document.querySelector('.video-options>select');
+let select;
 const video = document.querySelector('video');
 const canvas = document.querySelector('canvas');
 const screenshotImage = document.querySelector('img');
@@ -15,6 +15,8 @@ let streamStarted = false;
 let stream;
 let camId;
 let currentStream;
+var idx = -1;
+let foward = true;
 
 const [play, pause, screenshot] = buttons;
 
@@ -55,15 +57,30 @@ function stopMediaTracks(stream) {
 }
 
 play.addEventListener('click', event => {
-  if (typeof currentStream !== 'undefined') {
-    stopMediaTracks(currentStream);
-  }
-
-  if (cameraOptions.value === '') {
-      constraints.video.facingMode = 'environment';
-  } else {
-      constraints.video.deviceId = { exact: cameraOptions.value };
-  }
+    if (typeof currentStream !== 'undefined') {
+        stopMediaTracks(currentStream);
+    }
+    let selectSize = cameraOptions.options.length - 1;
+    if (foward == true){
+        idx++;
+        document.querySelector('.video-options>select').options.selectedIndex = idx;
+        cameraOptions = document.querySelector('.video-options>select')
+        constraints.video.deviceId = { exact: cameraOptions.value };
+        if (idx == selectSize){
+        foward = false
+        }
+    }
+    else{
+        idx--;
+        if (idx >=0 ){
+            document.querySelector('.video-options>select').options.selectedIndex = idx;
+            cameraOptions = document.querySelector('.video-options>select')
+            constraints.video.deviceId = { exact: cameraOptions.value };
+        }
+        if (idx < 1){
+         foward = true
+         }
+    }
 
   navigator.mediaDevices
     .getUserMedia(constraints)
@@ -75,7 +92,6 @@ play.addEventListener('click', event => {
         video.srcObject = stream;
         return navigator.mediaDevices.enumerateDevices();
     })
-    .then(gotDevices)
     .catch(error => {
       console.error(error);
     });
@@ -98,19 +114,13 @@ const doScreenshot = () => {
 pause.onclick = pauseStream;
 screenshot.onclick = doScreenshot;
 
-function gotDevices(mediaDevices) {
-  cameraOptions.innerHTML = '';
-  cameraOptions.appendChild(document.createElement('option'));
-  let count = 1;
-  mediaDevices.forEach(mediaDevice => {
-    if (mediaDevice.kind === 'videoinput') {
-      const option = document.createElement('option');
-      option.value = mediaDevice.deviceId;
-      const label = mediaDevice.label || `Camera ${count++}`;
-      const textNode = document.createTextNode(label);
-      option.appendChild(textNode);
-      cameraOptions.appendChild(option);
-    }
+const getCameraSelection = async () => {
+  const devices = await navigator.mediaDevices.enumerateDevices();
+  const videoDevices = devices.filter(device => device.kind === 'videoinput');
+  const options = videoDevices.map(videoDevice => {
+    return `<option value="${videoDevice.deviceId}">${videoDevice.label}</option>`;
   });
-}
-navigator.mediaDevices.enumerateDevices().then(gotDevices);
+  cameraOptions.innerHTML = await options.join('');
+};
+
+getCameraSelection();
