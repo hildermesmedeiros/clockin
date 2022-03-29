@@ -18,7 +18,7 @@ let currentStream;
 var idx = -1;
 let foward = true;
 
-const [play, pause, screenshot] = buttons;
+const [play, screenshot] = buttons;
 
 
 var constraints = {
@@ -85,8 +85,8 @@ play.addEventListener('click', event => {
   navigator.mediaDevices
     .getUserMedia(constraints)
     .then(stream => {
-        play.classList.add('d-none');
-        pause.classList.remove('d-none');
+        //play.classList.add('d-none');
+        //pause.classList.remove('d-none');
         screenshot.classList.remove('d-none');
         currentStream = stream;
         video.srcObject = stream;
@@ -99,8 +99,8 @@ play.addEventListener('click', event => {
 
 const pauseStream = () => {
     stopMediaTracks(currentStream);
-    play.classList.remove('d-none');
-    pause.classList.add('d-none');
+    //play.classList.remove('d-none');
+    //pause.classList.add('d-none');
 };
 
 const doScreenshot = () => {
@@ -111,7 +111,7 @@ const doScreenshot = () => {
     screenshotImage.classList.remove('d-none');
 };
 
-pause.onclick = pauseStream;
+//pause.onclick = pauseStream;
 screenshot.onclick = doScreenshot;
 
 const getCameraSelection = async () => {
@@ -121,6 +121,7 @@ const getCameraSelection = async () => {
     return `<option value="${videoDevice.deviceId}">${videoDevice.label}</option>`;
   });
   cameraOptions.innerHTML = await options.join('');
+  document.getElementById('play').click();
 };
 
 getCameraSelection();
